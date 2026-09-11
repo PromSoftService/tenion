@@ -383,6 +383,16 @@ p {
 
 .hero-visual {
   position: relative;
+  display: grid;
+  min-height: 510px;
+  place-items: center;
+}
+
+.hero-logo {
+  display: block;
+  width: min(100%, 460px);
+  height: auto;
+  filter: drop-shadow(0 34px 44px rgba(22, 28, 39, 0.16));
 }
 
 .visual-window,
@@ -637,22 +647,30 @@ p {
 
 .workflow-list {
   display: grid;
-  gap: 104px;
+  gap: 0;
 }
 
 .workflow-item {
   display: grid;
-  grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
-  gap: 64px;
-  align-items: center;
+  min-height: max(100svh, 960px);
+  padding-block: clamp(92px, 12vh, 150px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 42px;
+  align-content: center;
+  border-bottom: 1px solid var(--line);
 }
 
-.workflow-item-reverse {
-  grid-template-columns: minmax(0, 1.28fr) minmax(300px, 0.72fr);
+.workflow-item:first-child {
+  padding-top: 24px;
 }
 
-.workflow-item-reverse .workflow-copy { order: 2; }
-.workflow-item-reverse .video-shell { order: 1; }
+.workflow-item:last-child {
+  border-bottom: 0;
+}
+
+.workflow-copy {
+  width: min(100%, 960px);
+}
 
 .workflow-meta {
   display: flex;
@@ -685,20 +703,22 @@ p {
 .workflow-copy h3 { margin-bottom: 24px; }
 
 .workflow-copy > p {
-  margin-bottom: 28px;
+  margin-bottom: 0;
   color: var(--muted);
   font-size: 16px;
 }
 
-.workflow-copy > strong {
+.workflow-result {
   display: block;
-  padding-top: 22px;
+  width: min(100%, 960px);
+  padding-top: 26px;
   border-top: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
 }
 
 .video-shell {
+  width: 100%;
   border-radius: 18px;
 }
 
@@ -1032,7 +1052,8 @@ footer {
   .desktop-nav { display: none; }
   .hero-grid { grid-template-columns: 1fr; }
   .hero-copy { max-width: 860px; }
-  .hero-visual { max-width: 760px; }
+  .hero-visual { min-height: 390px; }
+  .hero-logo { width: min(64vw, 420px); }
   .proof-intro,
   .section-heading { grid-template-columns: 0.45fr 1.55fr; }
   .proof-intro > p:last-child,
@@ -1063,11 +1084,10 @@ footer {
   .section-heading h2 { margin-bottom: 26px; }
   .proof-intro > p:last-child,
   .section-heading > p:last-child { max-width: 620px; }
-  .workflow-list { gap: 84px; }
+  .workflow-list { gap: 0; }
   .workflow-item,
-  .workflow-item-reverse { grid-template-columns: 1fr; gap: 36px; }
-  .workflow-item-reverse .workflow-copy,
-  .workflow-item-reverse .video-shell { order: initial; }
+  .workflow-item-reverse { min-height: auto; padding-block: 96px; grid-template-columns: 1fr; gap: 36px; }
+  .workflow-item:first-child { padding-top: 0; }
   .workflow-copy { max-width: 660px; }
   .support-grid,
   .access-grid { grid-template-columns: 1fr; }
@@ -1083,6 +1103,9 @@ footer {
   .header-inner { min-height: 46px; }
   .brand-product { display: none; }
   .hero { padding-top: 116px; }
+  .hero-grid { gap: 36px; }
+  .hero-visual { min-height: 280px; }
+  .hero-logo { width: min(72vw, 300px); }
   h1 { font-size: clamp(42px, 13vw, 64px); }
   h2 { font-size: clamp(36px, 11vw, 50px); }
   .hero-lead { font-size: 16px; }
@@ -1100,7 +1123,11 @@ footer {
   .metric strong { margin-bottom: 18px; font-size: 43px; }
   .metric span { font-size: 11px; }
   .section-heading { margin-bottom: 58px; }
+  .workflow-item,
+  .workflow-item-reverse { padding-block: 78px; gap: 28px; }
   .workflow-meta { margin-bottom: 22px; }
+  .workflow-copy h3 { margin-bottom: 18px; }
+  .workflow-result { padding-top: 20px; font-size: 13px; }
   .video-topbar { height: 34px; }
   .module-track { grid-template-columns: 1fr; }
   .module-card,
