@@ -865,7 +865,7 @@ p {
 .section-heading h2 { margin: 0; }
 
 .section-heading > p:last-child {
-  margin: 7px 0 0;
+  margin: 0;
   color: var(--muted);
   font-size: 16px;
 }
@@ -1451,6 +1451,10 @@ footer {
   line-height: 1.35;
 }
 
+.hero-thesis span {
+  display: block;
+}
+
 .entry {
   background: var(--surface);
 }
@@ -1471,7 +1475,7 @@ footer {
 
 .entry-head > p:last-child,
 .paths-head > p:last-child {
-  margin: 8px 0 0;
+  margin: 0;
   color: var(--muted);
   font-size: 15px;
 }
@@ -1680,7 +1684,7 @@ footer {
 }
 
 .foundation-head > p:last-child {
-  margin: 8px 0 0;
+  margin: 0;
   color: #adb2bc;
   font-size: 15px;
 }
