@@ -86,7 +86,3 @@ const requestVideoUpdate = () => {
 updateActiveVideo();
 window.addEventListener("scroll", requestVideoUpdate, { passive: true });
 window.addEventListener("resize", requestVideoUpdate);
-
-document.querySelector("[data-preview-form]")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
