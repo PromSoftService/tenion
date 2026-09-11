@@ -47,3 +47,7 @@ const videoObserver = new IntersectionObserver(
 document.querySelectorAll("[data-lazy-video]").forEach((video) => {
   videoObserver.observe(video);
 });
+
+document.querySelector("[data-preview-form]")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
