@@ -86,3 +86,12 @@ const requestVideoUpdate = () => {
 updateActiveVideo();
 window.addEventListener("scroll", requestVideoUpdate, { passive: true });
 window.addEventListener("resize", requestVideoUpdate);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    videos.forEach((video) => video.pause());
+    return;
+  }
+
+  requestVideoUpdate();
+});

@@ -1,331 +1,164 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f5f7">
-    <meta name="description" content="Выпускайте ПО АСУ ТП за часы: PLC-код, HMI-теги, аварии, тренды и сценарии виртуальной проверки из одной модели. Бесплатный ранний доступ.">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:url" content="https://tenion.cloud/">
-    <meta property="og:title" content="MetaPlatform — ПО АСУ ТП за часы, а не за недели">
-    <meta property="og:description" content="PLC-код, данные HMI/SCADA и сценарии виртуальной проверки из одной модели проекта.">
-    <meta name="twitter:card" content="summary">
-    <link rel="canonical" href="https://tenion.cloud/">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <script>document.documentElement.classList.add("js")</script>
-    <link rel="stylesheet" href="/css/styles.css">
-    <title>MetaPlatform — генерация PLC, HMI/SCADA и виртуальная наладка АСУ ТП</title>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "MetaPlatform",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Web",
-        "url": "https://tenion.cloud/",
-        "description": "Система автоматизированной разработки программного обеспечения АСУ ТП: генерация PLC-кода, данных HMI/SCADA и сценариев виртуальной проверки.",
-        "creator": {
-          "@type": "Organization",
-          "name": "PromSoftService",
-          "url": "https://promsoftservice.ru/"
-        }
-      }
-    </script>
-  </head>
-  <body>
-    <header class="site-header" data-header>
-      <div class="container header-inner">
-        <a class="brand" href="#top" aria-label="Tenion — на главную">
-          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="brand-name">TENION</span>
-          <span class="brand-product">MetaPlatform</span>
-        </a>
-        <nav class="desktop-nav" aria-label="Основная навигация">
-          <a href="#case">Результат</a>
-          <a href="#workflow">Как работает</a>
-          <a href="#platform">Платформа</a>
-          <a href="#access">Ранний доступ</a>
-        </nav>
-        <a class="header-action" href="https://app.tenion.cloud">Открыть MetaPlatform <span>↗</span></a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f5f7">
+  <meta name="description" content="MetaPlatform превращает описание оборудования и связей в PLC-код, данные HMI/SCADA и сценарии виртуальной проверки. Бесплатный ранний доступ.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://tenion.cloud/">
+  <meta property="og:title" content="MetaPlatform — не программируйте следующий объект с нуля">
+  <meta property="og:description" content="Система автоматизированной разработки ПО АСУ ТП: PLC, HMI/SCADA и виртуальная проверка из одной модели проекта.">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://tenion.cloud/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>MetaPlatform — автоматизированная разработка ПО АСУ ТП</title>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"MetaPlatform","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://tenion.cloud/","description":"Система автоматизированной разработки программного обеспечения АСУ ТП: генерация PLC-кода, данных HMI/SCADA и сценариев виртуальной проверки.","creator":{"@id":"https://tenion.cloud/#organization"}},{"@type":"Organization","@id":"https://tenion.cloud/#organization","name":"PromSoftService","url":"https://promsoftservice.ru/"}]}
+  </script>
+</head>
+<body>
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Tenion — на главную"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-name">TENION</span><span class="brand-product">MetaPlatform</span></a>
+      <nav class="desktop-nav" aria-label="Основная навигация"><a href="#workflow">Как работает</a><a href="#foundation">Основа</a><a href="#evidence">Кейсы</a><a href="#paths">Как начать</a></nav>
+      <a class="header-action" href="https://app.tenion.cloud" data-analytics="open-app-header">Попробовать бесплатно <span>↗</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div><div class="hero-orbit orbit-two" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="kicker"><span></span> Система автоматизированной разработки ПО АСУ ТП</p>
+          <h1>Не программируйте следующий объект <em>с нуля</em></h1>
+          <p class="hero-lead">Опишите оборудование и связи. MetaPlatform сформирует PLC-код, данные HMI/SCADA и сценарии виртуальной проверки из одной модели проекта.</p>
+          <p class="hero-thesis">Первый проект — быстрее. Следующие — по тому же стандарту.</p>
+          <div class="hero-actions"><a class="button button-primary" href="https://app.tenion.cloud" data-analytics="open-app-hero">Попробовать бесплатно <span>↗</span></a><a class="button button-secondary" href="#workflow" data-analytics="watch-process">Смотреть демонстрацию</a></div>
+          <p class="access-note"><span></span> Ранний доступ: весь текущий функционал доступен бесплатно</p>
+          <div class="hero-platforms" aria-label="Поддерживаемые платформы"><span>Siemens TIA Portal</span><span>CODESYS 3.5</span><span>CODESYS 2.3</span><span>WinCC</span><span>Weintek</span></div>
+        </div>
+        <div class="hero-visual reveal" aria-label="Логотип MetaPlatform"><img class="hero-logo" src="/images/metaplatform-logo.png" width="1024" height="1024" alt="MetaPlatform"></div>
       </div>
-    </header>
+    </section>
 
-    <main id="top">
-      <section class="hero">
-        <div class="hero-orbit orbit-one" aria-hidden="true"></div>
-        <div class="hero-orbit orbit-two" aria-hidden="true"></div>
-        <div class="container hero-grid">
-          <div class="hero-copy reveal">
-            <p class="kicker"><span></span> TENION / MetaPlatform</p>
-            <h1>Выпускайте ПО АСУ ТП <em>за часы, а не за недели</em></h1>
-            <p class="hero-lead">MetaPlatform — система автоматизированной разработки программного обеспечения АСУ ТП. Она превращает описание оборудования и связей в готовый PLC-код, данные HMI/SCADA и сценарии виртуальной проверки. Типовой проект котельной — полный прикладной цикл за 3 часа.</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="https://app.tenion.cloud">Создать первый проект бесплатно <span>↗</span></a>
-              <a class="button button-secondary" href="#workflow">Посмотреть процесс</a>
-            </div>
-            <p class="access-note"><span></span> Ранний доступ: все модули доступны бесплатно</p>
-            <div class="hero-platforms" aria-label="Поддерживаемые платформы">
-              <span>Siemens TIA Portal</span><span>CODESYS 3.5</span><span>CODESYS 2.3</span><span>WinCC</span><span>Weintek</span>
-            </div>
-          </div>
-
-          <div class="hero-visual reveal" aria-label="Логотип MetaPlatform">
-            <img class="hero-logo" src="/images/metaplatform-logo.png" width="1024" height="1024" alt="MetaPlatform">
-          </div>
+    <section class="entry section" aria-labelledby="entry-title">
+      <div class="container">
+        <div class="entry-head reveal"><p class="section-label">Один продукт</p><h2 id="entry-title">Три способа получить результат</h2><p>Начните самостоятельно, подключите команду или внедрите MetaPlatform как корпоративный стандарт вместе с разработчиком платформы.</p></div>
+        <div class="entry-grid">
+          <a class="entry-card reveal" href="#engineer" data-analytics="choose-engineer"><span class="entry-number">01</span><p class="entry-audience">Инженеру</p><h3>Начать самостоятельно</h3><p>Соберите первый проект, получите редактируемый код и оцените, сколько ручной работы снимает платформа.</p><strong>Открыть бесплатно <i>→</i></strong></a>
+          <a class="entry-card entry-card-accent reveal" href="#team" data-analytics="choose-team"><span class="entry-number">02</span><p class="entry-audience">Интегратору</p><h3>Использовать в команде</h3><p>Выпускайте типовую часть проектов за часы и дни вместо недель и месяцев повторяющейся работы.</p><strong>Для команды <i>→</i></strong></a>
+          <a class="entry-card entry-card-dark reveal" href="#implementation" data-analytics="choose-implementation"><span class="entry-number">03</span><p class="entry-audience">Компании</p><h3>Внедрить вместе с нами</h3><p>Превратите собственные библиотеки, стандарты и типовые решения в воспроизводимую технологию разработки.</p><strong>Обсудить пилот <i>→</i></strong></a>
         </div>
-      </section>
-
-      <section class="case-study section" id="case">
-        <div class="container">
-          <div class="case-head reveal">
-            <div>
-              <p class="section-label">Результат на реальном проекте</p>
-              <h2>Котельная: от структуры оборудования до проверенной программы</h2>
-            </div>
-            <div class="case-time" aria-label="Три часа">
-              <strong>3:00</strong>
-              <span>полный прикладной цикл</span>
-            </div>
-          </div>
-
-          <div class="case-grid">
-            <div class="case-summary reveal">
-              <p>Инженер описывает оборудование, сигналы, параметры, аварии и связи. MetaPlatform собирает из стандартных компонентов прикладную часть проекта — без ручного размножения однотипного кода и данных.</p>
-              <p class="case-note">Речь о типовом проекте на готовых компонентах MetaKit. Нестандартная технологическая логика остаётся инженерной задачей — и может стать новым корпоративным шаблоном.</p>
-            </div>
-            <div class="deliverables">
-              <article class="deliverable reveal"><span>01</span><h3>PLC</h3><p>Переменные, экземпляры блоков, вызовы и конфигурация для импорта в целевую среду.</p></article>
-              <article class="deliverable reveal"><span>02</span><h3>HMI / SCADA</h3><p>Теги, алармы, тренды, адреса и связи, сформированные из той же модели проекта.</p></article>
-              <article class="deliverable reveal"><span>03</span><h3>Проверка</h3><p>Сценарии имитации датчиков, механизмов и отказов с журналом выполнения испытаний.</p></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="business-value section">
-        <div class="container">
-          <div class="section-heading reveal">
-            <p class="section-label">Для системного интегратора</p>
-            <h2>Больше проектов<br>той же командой</h2>
-            <p>MetaPlatform не заменяет инженера. Она освобождает его от повторения уже решённых задач.</p>
-          </div>
-          <div class="benefit-grid">
-            <article class="benefit-card reveal"><span>01</span><h3>Предсказуемые сроки</h3><p>Объём типовой работы определяется составом оборудования, а не скоростью копирования и правки кода.</p></article>
-            <article class="benefit-card reveal"><span>02</span><h3>Знания остаются в компании</h3><p>Лучшие инженерные решения закрепляются в библиотеке и шаблонах, а не только в проектах отдельных программистов.</p></article>
-            <article class="benefit-card reveal"><span>03</span><h3>Меньше ошибок интеграции</h3><p>PLC, HMI и SCADA получают данные из одной модели — без повторного ввода имён, адресов и аварий.</p></article>
-            <article class="benefit-card reveal"><span>04</span><h3>ПНР начинается до объекта</h3><p>Алгоритмы, блокировки и реакции на отказы проверяются на работающей программе PLC заранее.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="comparison section">
-        <div class="container">
-          <div class="comparison-heading reveal">
-            <p class="section-label">Новый процесс разработки</p>
-            <h2>Не программировать одно и то же снова.<br>Выпускать проекты по стандарту.</h2>
-          </div>
-          <div class="comparison-table reveal" role="table" aria-label="Сравнение обычной разработки и MetaPlatform">
-            <div class="comparison-row comparison-header" role="row">
-              <span role="columnheader">Обычная разработка</span><span role="columnheader">С MetaPlatform</span>
-            </div>
-            <div class="comparison-row" role="row"><span role="cell">Повторный ввод данных в PLC, HMI и SCADA</span><strong role="cell">Одна модель для всего проекта</strong></div>
-            <div class="comparison-row" role="row"><span role="cell">Копирование и ручная адаптация старых решений</span><strong role="cell">Параметризованные компоненты MetaKit</strong></div>
-            <div class="comparison-row" role="row"><span role="cell">Разная структура кода у разных специалистов</span><strong role="cell">Единая библиотека и единые правила</strong></div>
-            <div class="comparison-row" role="row"><span role="cell">Основная проверка во время ПНР на объекте</span><strong role="cell">Сценарии проверки до выезда</strong></div>
-            <div class="comparison-row" role="row"><span role="cell">Зависимость от автора конкретного проекта</span><strong role="cell">Воспроизводимый корпоративный стандарт</strong></div>
-          </div>
-          <p class="comparison-result reveal">Руководитель управляет технологией разработки, а не героизмом отдельных программистов.</p>
-        </div>
-      </section>
-
-      <section class="workflow section" id="workflow">
-        <div class="container">
-          <div class="section-heading reveal">
-            <p class="section-label">Полный цикл</p>
-            <h2>От описания проекта<br>до проверенной программы</h2>
-            <p>Инженер определяет структуру и правила. Повторяющиеся операции выполняет платформа.</p>
-          </div>
-
-          <div class="workflow-list">
-            <article class="workflow-item">
-              <div class="workflow-copy reveal">
-                <div class="workflow-meta"><span>01</span><p>Описание проекта</p></div>
-                <h3>Опишите оборудование, а не переписывайте код</h3>
-                <p>Проект формируется из стандартных компонентов и шаблонов MetaKit. В таблицах MetaGen инженер задаёт идентификаторы оборудования, названия, сигналы ввода-вывода, параметры, аварии и связи.</p>
-              </div>
-              <div class="video-shell reveal">
-                <div class="video-topbar"><span></span><span></span><span></span><b>Описание проекта</b></div>
-                <video muted loop playsinline preload="metadata" poster="/videos/tenion-01.webp" data-lazy-video aria-label="Описание проекта в MetaGen">
-                  <source data-src="/videos/tenion-01.mp4" type="video/mp4">
-                </video>
-              </div>
-              <strong class="workflow-result reveal">Вместо сотен повторяющихся операций — единая структурированная модель проекта.</strong>
-            </article>
-
-            <article class="workflow-item">
-              <div class="workflow-copy reveal">
-                <div class="workflow-meta"><span>02</span><p>Генерация PLC</p></div>
-                <h3>Получите прозрачный и редактируемый PLC-код</h3>
-                <p>MetaGen создаёт переменные, экземпляры функциональных блоков, вызовы, конфигурацию и структуры данных. Это обычный доступный инженеру код: он импортируется, читается, компилируется и при необходимости дорабатывается в целевой среде.</p>
-              </div>
-              <div class="video-shell reveal">
-                <div class="video-topbar"><span></span><span></span><span></span><b>Генерация PLC</b></div>
-                <video muted loop playsinline preload="metadata" poster="/videos/tenion-02.webp" data-lazy-video aria-label="Импорт сгенерированного PLC-кода">
-                  <source data-src="/videos/tenion-02.mp4" type="video/mp4">
-                </video>
-              </div>
-              <strong class="workflow-result reveal">Siemens TIA Portal · CODESYS 3.5 · CODESYS 2.3</strong>
-            </article>
-
-            <article class="workflow-item">
-              <div class="workflow-copy reveal">
-                <div class="workflow-meta"><span>03</span><p>HMI и SCADA</p></div>
-                <h3>Подготовьте визуализацию вместе с программой PLC</h3>
-                <p>MetaView формирует из той же модели HMI-теги, аварийные сообщения, тренды, адреса и файлы импорта. Имена и связи не приходится повторно переносить между PLC, панелью оператора и SCADA.</p>
-              </div>
-              <div class="video-shell reveal">
-                <div class="video-topbar"><span></span><span></span><span></span><b>HMI и SCADA</b></div>
-                <video muted loop playsinline preload="metadata" poster="/videos/tenion-03.webp" data-lazy-video aria-label="Импорт HMI-тегов, аварий и трендов">
-                  <source data-src="/videos/tenion-03.mp4" type="video/mp4">
-                </video>
-              </div>
-              <strong class="workflow-result reveal">Siemens WinCC · Weintek · OPC UA · Modbus</strong>
-            </article>
-
-            <article class="workflow-item">
-              <div class="workflow-copy reveal">
-                <div class="workflow-meta"><span>04</span><p>Виртуальная наладка</p></div>
-                <h3>Проверьте алгоритмы до выезда на объект</h3>
-                <p>MetaLab через OPC UA имитирует датчики, двигатели, клапаны, режимы, обратные связи и отказы. Готовые и пользовательские сценарии проверяют реакцию работающей программы PLC и фиксируют ход испытаний.</p>
-              </div>
-              <div class="video-shell reveal">
-                <div class="video-topbar"><span></span><span></span><span></span><b>Виртуальная наладка</b></div>
-                <video muted loop playsinline preload="metadata" poster="/videos/tenion-04.webp" data-lazy-video aria-label="Виртуальная пусконаладка в MetaLab">
-                  <source data-src="/videos/tenion-04.mp4" type="video/mp4">
-                </video>
-              </div>
-              <strong class="workflow-result reveal">Ошибки выявляются до объекта — когда их исправление ещё не требует времени реальной ПНР.</strong>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="standard section">
-        <div class="container standard-grid">
-          <div class="standard-copy reveal">
-            <p class="section-label section-label-light">Корпоративный стандарт</p>
-            <h2>Превратите опыт лучших инженеров в технологию компании</h2>
-            <p>Используйте готовые решения MetaPlatform или создавайте собственные шаблоны MetaKit под технологию, структуру проектов, правила именования и свою библиотеку функциональных блоков.</p>
-          </div>
-          <div class="standard-points">
-            <article class="reveal"><span>01</span><div><h3>Начните с готового</h3><p>Датчики, механизмы, клапаны, регуляторы, насосные группы, каскады, аварии и защиты уже стандартизированы.</p></div></article>
-            <article class="reveal"><span>02</span><div><h3>Закрепите свои решения</h3><p>Нестандартный контур можно один раз оформить как шаблон и использовать во всех следующих проектах.</p></div></article>
-            <article class="reveal"><span>03</span><div><h3>Сохраняйте контроль</h3><p>Результат генерации остаётся видимым и редактируемым в штатных средах Siemens и CODESYS.</p></div></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="proof" aria-label="Опыт и результаты">
-        <div class="container">
-          <div class="proof-intro reveal">
-            <p class="section-label section-label-light">Проверено практикой</p>
-            <h2>Новая платформа.<br><span>Зрелое инженерное ядро.</span></h2>
-            <p>MetaPlatform появилась недавно. Библиотеки, типовые контуры и генераторы внутри неё создавались и проверялись в реальных проектах промышленной автоматизации 15 лет.</p>
-          </div>
-          <div class="metrics">
-            <article class="metric reveal"><strong>15</strong><span>лет разработки</span></article>
-            <article class="metric reveal"><strong>10+</strong><span>лет ядро системы используется в промышленных проектах</span></article>
-            <article class="metric reveal"><strong>100+</strong><span>реализованных промышленных объектов</span></article>
-            <article class="metric reveal"><strong>≈95%</strong><span>типовых прикладных задач АСУ ТП реализуется средствами платформы</span></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="platform section" id="platform">
-        <div class="container">
-          <div class="section-heading reveal">
-            <p class="section-label">Архитектура</p>
-            <h2>Пять частей одной системы</h2>
-            <p>Единый процесс: стандартная логика, шаблоны, генерация, визуализация и проверка.</p>
-          </div>
-
-          <div class="module-track" aria-label="Модули MetaPlatform">
-            <article class="module-card reveal"><span>01</span><h3>MetaLib</h3><p>Промышленная библиотека функциональных блоков для типовых прикладных задач АСУ ТП.</p></article>
-            <article class="module-card reveal"><span>02</span><h3>MetaKit</h3><p>Готовые типовые контуры и собственные корпоративные шаблоны для повторного использования.</p></article>
-            <article class="module-card reveal"><span>03</span><h3>MetaGen</h3><p>Структурированное описание проекта и генерация PLC-кода, конфигурации и данных.</p></article>
-            <article class="module-card reveal"><span>04</span><h3>MetaView</h3><p>HMI-теги, аварии, тренды, адреса и файлы импорта для операторских систем.</p></article>
-            <article class="module-card reveal"><span>05</span><h3>MetaLab</h3><p>Логическая виртуальная наладка работающего PLC: имитация поля, сценарии и журнал.</p></article>
-          </div>
-
-          <div class="support-grid">
-            <article class="support-card support-card-dark reveal">
-              <p class="section-label section-label-light">PLC</p>
-              <h3>Одна прикладная модель.<br>Три целевые платформы.</h3>
-              <div class="badge-row"><span>Siemens TIA Portal</span><span>CODESYS 3.5</span><span>CODESYS 2.3</span></div>
-            </article>
-            <article class="support-card reveal">
-              <p class="section-label">HMI / SCADA</p>
-              <h3>Данные визуализации создаются вместе с кодом.</h3>
-              <div class="badge-row"><span>Siemens WinCC</span><span>Weintek</span><span>OPC UA</span><span>Modbus</span></div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="faq section">
-        <div class="container faq-grid">
-          <div class="faq-heading reveal">
-            <p class="section-label">Без маркетингового тумана</p>
-            <h2>Что важно знать до первого проекта</h2>
-          </div>
-          <div class="faq-list">
-            <details class="reveal"><summary>MetaPlatform заменяет программиста АСУ ТП?</summary><p>Нет. Инженер по-прежнему определяет архитектуру, технологическую логику, состав оборудования и нестандартные алгоритмы. Платформа автоматизирует повторяемую прикладную работу и обеспечивает единый стандарт её выполнения.</p></details>
-            <details class="reveal"><summary>Сгенерированный код можно увидеть и изменить?</summary><p>Да. MetaPlatform формирует код и файлы для штатных сред TIA Portal и CODESYS. Результат можно читать, компилировать, отлаживать и дорабатывать обычными инструментами.</p></details>
-            <details class="reveal"><summary>Можно использовать собственную библиотеку функциональных блоков?</summary><p>Да. MetaKit позволяет создавать корпоративные шаблоны под свои стандарты, типовые узлы и собственную библиотеку FB.</p></details>
-            <details class="reveal"><summary>Что означает «≈95% типовых задач»?</summary><p>За 15 лет в системе были реализованы компоненты и контуры, закрывающие подавляющее большинство повторяющихся прикладных задач АСУ ТП. Уникальная технология объекта не исчезает: инженер реализует её отдельно и при необходимости превращает в новый шаблон.</p></details>
-            <details class="reveal"><summary>MetaLab — это физический цифровой двойник?</summary><p>Нет. Это логическая виртуальная наладка. MetaLab через OPC UA имитирует полевые сигналы и отказы, чтобы проверить реакции реальной программы PLC, алгоритмы, блокировки и переходы режимов до объекта.</p></details>
-            <details class="reveal"><summary>Что входит в бесплатный ранний доступ?</summary><p>Все доступные сейчас модули MetaPlatform: работа с проектами, MetaLib, MetaKit, MetaGen, MetaView, MetaLab и поддерживаемые целевые платформы.</p></details>
-          </div>
-        </div>
-      </section>
-
-      <section class="access section" id="access">
-        <div class="container access-panel reveal">
-          <div>
-            <p class="section-label">Бесплатный ранний доступ</p>
-            <h2>Проверьте MetaPlatform на проекте, который ваша команда уже умеет делать вручную</h2>
-            <p>Так проще всего оценить реальный выигрыш во времени, единообразие результата и объём рутины, который платформа снимает с инженера.</p>
-          </div>
-          <div class="access-action">
-            <a class="button button-primary" href="https://app.tenion.cloud">Создать первый проект бесплатно <span>↗</span></a>
-            <small>Все модули доступны без функциональных ограничений в рамках раннего доступа</small>
-          </div>
-        </div>
-      </section>
-
-      <section class="final-cta">
-        <div class="container final-inner reveal">
-          <p class="section-label section-label-light">TENION / MetaPlatform</p>
-          <h2>Не тратьте следующий проект на повторение уже решённых задач.</h2>
-          <div class="final-actions">
-            <a class="button button-light" href="https://app.tenion.cloud">Открыть MetaPlatform <span>↗</span></a>
-            <button class="button button-dark" type="button" disabled>Первый запуск <small>скоро</small></button>
-            <button class="button button-dark" type="button" disabled>Центр загрузки <small>скоро</small></button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="container footer-inner">
-        <div class="brand footer-brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-name">TENION</span></div>
-        <p>MetaPlatform — система автоматизированной разработки программного обеспечения АСУ ТП</p>
-        <a href="https://promsoftservice.ru">PromSoftService <span>↗</span></a>
       </div>
-    </footer>
+    </section>
 
-    <script src="/js/main.js" defer></script>
-  </body>
+    <section class="trust" aria-label="Опыт и зрелость технологии">
+      <div class="container trust-grid">
+        <article class="trust-item reveal"><strong>15</strong><span>лет разработки технологии</span></article><article class="trust-item reveal"><strong>10+</strong><span>лет ядро работает в промышленности</span></article><article class="trust-item reveal"><strong>100+</strong><span>реализованных промышленных объектов</span></article><article class="trust-item reveal"><strong>≈95%</strong><span>типовых задач в наших проектах</span></article>
+      </div>
+      <div class="container trust-note reveal">MetaPlatform — новый web-продукт. В его основе — библиотеки, шаблоны и генераторы, которые создавались и проверялись в реальных проектах 15 лет.</div>
+    </section>
+
+    <section class="workflow section" id="workflow">
+      <div class="container">
+        <div class="section-heading reveal"><p class="section-label">Четыре шага</p><h2>От описания оборудования<br>до проверенной программы</h2><p>Инженер определяет структуру и технологическую логику. Повторяющиеся операции выполняет платформа.</p></div>
+        <div class="workflow-list">
+          <article class="workflow-item">
+            <div class="workflow-copy reveal"><div class="workflow-meta"><span>01</span><p>Описание проекта</p></div><h3>Опишите оборудование один раз</h3><p>В таблицах MetaGen инженер задаёт идентификаторы, названия, сигналы ввода-вывода, параметры, аварии и связи. Проект собирается из стандартных компонентов и шаблонов MetaKit.</p></div>
+            <div class="video-shell reveal"><div class="video-topbar"><span></span><span></span><span></span><b>Описание проекта</b></div><video muted loop playsinline preload="metadata" poster="/videos/tenion-01.webp" data-lazy-video aria-label="Описание проекта в MetaGen"><source data-src="/videos/tenion-01.mp4" type="video/mp4"></video></div>
+            <strong class="workflow-result reveal">Одна структурированная модель вместо повторного ввода одних и тех же данных.</strong>
+          </article>
+          <article class="workflow-item">
+            <div class="workflow-copy reveal"><div class="workflow-meta"><span>02</span><p>Генерация PLC</p></div><h3>Получите прозрачный PLC-код</h3><p>MetaGen создаёт переменные, экземпляры функциональных блоков, вызовы, конфигурацию и структуры данных. Результат импортируется, читается, компилируется и при необходимости дорабатывается в штатной среде.</p></div>
+            <div class="video-shell reveal"><div class="video-topbar"><span></span><span></span><span></span><b>Генерация PLC</b></div><video muted loop playsinline preload="metadata" poster="/videos/tenion-02.webp" data-lazy-video aria-label="Импорт сгенерированного PLC-кода"><source data-src="/videos/tenion-02.mp4" type="video/mp4"></video></div>
+            <strong class="workflow-result reveal">Siemens TIA Portal · CODESYS 3.5 · CODESYS 2.3</strong>
+          </article>
+          <article class="workflow-item">
+            <div class="workflow-copy reveal"><div class="workflow-meta"><span>03</span><p>HMI и SCADA</p></div><h3>Подготовьте данные визуализации вместе с PLC</h3><p>MetaView формирует из той же модели HMI-теги, аварийные сообщения, тренды, адреса и файлы импорта. Имена и связи не приходится повторно переносить между PLC, панелью оператора и SCADA.</p></div>
+            <div class="video-shell reveal"><div class="video-topbar"><span></span><span></span><span></span><b>HMI и SCADA</b></div><video muted loop playsinline preload="metadata" poster="/videos/tenion-03.webp" data-lazy-video aria-label="Импорт HMI-тегов, аварий и трендов"><source data-src="/videos/tenion-03.mp4" type="video/mp4"></video></div>
+            <strong class="workflow-result reveal">Siemens WinCC · Weintek · OPC UA · Modbus</strong>
+          </article>
+          <article class="workflow-item">
+            <div class="workflow-copy reveal"><div class="workflow-meta"><span>04</span><p>Виртуальная наладка</p></div><h3>Проверьте алгоритмы до выезда на объект</h3><p>MetaLab через OPC UA имитирует датчики, двигатели, клапаны, режимы, обратные связи и отказы. Сценарии проверяют реакцию работающей программы PLC и фиксируют ход испытаний.</p></div>
+            <div class="video-shell reveal"><div class="video-topbar"><span></span><span></span><span></span><b>Виртуальная наладка</b></div><video muted loop playsinline preload="metadata" poster="/videos/tenion-04.webp" data-lazy-video aria-label="Виртуальная пусконаладка в MetaLab"><source data-src="/videos/tenion-04.mp4" type="video/mp4"></video></div>
+            <strong class="workflow-result reveal">Ошибки выявляются до площадки — когда их исправление требует меньше времени и затрат.</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="foundation section" id="foundation">
+      <div class="container">
+        <div class="foundation-head reveal"><p class="section-label section-label-light">Фундамент платформы</p><h2>Не только котельные.<br><span>Типовые задачи АСУ ТП повторяются в любой отрасли.</span></h2><p>Датчик, двигатель, клапан, регулятор или каскад остаются теми же инженерными сущностями на насосной станции, в котельной, вентиляции или производственной линии.</p></div>
+        <div class="foundation-layers">
+          <article class="foundation-card reveal"><span>01 / ПОВЕДЕНИЕ</span><h3>MetaLib</h3><p>Проверенные функциональные блоки датчиков, механизмов, клапанов, регуляторов, каскадов, аварий и режимов управления.</p><strong>Единый интерфейс · Единая диагностика</strong></article>
+          <article class="foundation-card reveal"><span>02 / ТИПОВЫЕ РЕШЕНИЯ</span><h3>MetaKit</h3><p>Готовые контуры и шаблоны: двигатель, задвижка, PID-контур, насосная группа N/M, резервирование датчиков и технологические узлы.</p><strong>Готовые и собственные шаблоны</strong></article>
+          <article class="foundation-card reveal"><span>03 / ПРОЕКТ</span><h3>MetaPlatform</h3><p>Конкретное оборудование, параметры и связи превращаются в код, данные HMI/SCADA и сценарии проверки для выбранной платформы.</p><strong>MetaGen · MetaView · MetaLab</strong></article>
+        </div>
+        <div class="industries reveal" aria-label="Примеры объектов автоматизации"><p>Опыт применения инженерной технологии</p><div><span>Насосные станции</span><span>Энергоцентры</span><span>Вентиляция</span><span>Холодильные установки</span><span>Фильтрация</span><span>Ферментация</span><span>Дозирование</span><span>Обогащение</span><span>Котельные</span></div></div>
+      </div>
+    </section>
+
+    <section class="evidence section" id="evidence">
+      <div class="container">
+        <div class="section-heading reveal"><p class="section-label">Три доказательства</p><h2>Скорость. Масштаб.<br>Уверенность в результате.</h2><p>Три разных ответа на вопрос: работает ли технология в реальном проекте.</p></div>
+        <div class="evidence-grid">
+          <article class="evidence-card evidence-speed reveal"><div class="evidence-top"><span>01</span><p>Скорость</p></div><strong class="evidence-number">3 часа</strong><h3>Прикладная программа котельной в MetaPlatform</h3><p>Описание проекта, формирование PLC-кода, импорт и загрузка в CODESYS. Полная запись разработки смонтирована в 20-минутную демонстрацию.</p><small>Речь о PLC-приложении на готовых компонентах, а не о строительстве и вводе всей котельной за три часа.</small></article>
+          <article class="evidence-card evidence-scale reveal"><div class="evidence-top"><span>02</span><p>Масштаб</p></div><p class="evidence-kicker">Повысительная насосная станция · Карельский Окатыш · 2025</p><h3>91% PLC-кода сформировано автоматически</h3><div class="case-metrics"><div><strong>713</strong><span>сигналов I/O</span></div><div><strong>150</strong><span>датчиков</span></div><div><strong>60</strong><span>задвижек</span></div><div><strong>16</strong><span>насосов</span></div><div><strong>6 237</strong><span>HMI-тегов</span></div><div><strong>567</strong><span>аварий</span></div></div><p class="case-outcome">24 дня · 1 программист · первый запуск без программных доработок</p><a href="https://promsoftservice.ru/#case" target="_blank" rel="noopener">Смотреть промышленный кейс <span>↗</span></a></article>
+          <article class="evidence-card evidence-confidence reveal"><div class="evidence-top"><span>03</span><p>Уверенность</p></div><h3>Проверка программы до реального объекта</h3><p>Для крупного проекта паровой котельной виртуально проверены датчики, приводы, клапаны, блокировки, защиты и автоматические алгоритмы. Результаты испытаний зафиксированы в отчётах.</p><ul><li>штатные режимы;</li><li>отказы и аварии;</li><li>последовательности пуска и останова;</li><li>журнал результатов проверки.</li></ul><a href="#workflow">Посмотреть работу MetaLab <span>↑</span></a></article>
+        </div>
+        <p class="evidence-disclaimer reveal">Промышленные кейсы подтверждают зрелость библиотек, типовых контуров и генераторов, которые стали фундаментом современной web-версии MetaPlatform.</p>
+      </div>
+    </section>
+
+    <section class="paths section" id="paths">
+      <div class="container">
+        <div class="paths-head reveal"><p class="section-label">Как начать</p><h2>Выберите глубину внедрения</h2><p>Самостоятельный доступ действительно работает самостоятельно. Компания может сразу перейти к пилоту — без обязательного учебного маршрута.</p></div>
+        <div class="path-list">
+          <article class="path-card reveal" id="engineer"><div class="path-index"><span>01</span><p>Для инженера</p></div><div class="path-copy"><h3>Создайте первый проект бесплатно</h3><p>Используйте готовые компоненты, сформируйте код и данные проекта, проверьте результат в привычной PLC-среде. MetaPlatform не заменяет знание программирования — она масштабирует его.</p><ul><li>весь текущий функционал раннего доступа;</li><li>готовые компоненты и шаблоны;</li><li>прозрачный редактируемый результат.</li></ul></div><div class="path-action"><a class="button button-primary" href="https://app.tenion.cloud" data-analytics="open-app-engineer">Открыть MetaPlatform <span>↗</span></a><small>Без оплаты в период раннего доступа</small></div></article>
+          <article class="path-card reveal" id="team"><div class="path-index"><span>02</span><p>Для команды</p></div><div class="path-copy"><h3>Выпускайте больше проектов тем же составом</h3><p>Типовая часть разработки формируется за часы и дни вместо недель и месяцев ручной работы. Решения закрепляются в шаблонах, а структура проекта перестаёт зависеть от конкретного автора.</p><ul><li>единый стандарт PLC и HMI/SCADA;</li><li>меньше copy-paste и повторной адресации;</li><li>проверка алгоритмов до площадки.</li></ul></div><div class="path-action"><a class="button button-outline" href="mailto:info@promsoftservice.ru?subject=MetaPlatform%20для%20команды" data-analytics="contact-team">Обсудить применение <span>↗</span></a><small>Для системных интеграторов и инженерных подразделений</small></div></article>
+          <article class="path-card path-card-dark reveal" id="implementation"><div class="path-index"><span>03</span><p>Внедрение с разработчиком</p></div><div class="path-copy"><h3>Превратите опыт компании в работающий стандарт</h3><p>Начнём с небольшого реального узла, проверим эффект на ваших исходных данных и определим, какие библиотеки, компоненты и правила нужно закрепить в корпоративном MetaKit.</p><ul><li>платный пилот в ограниченных границах;</li><li>индивидуальные шаблоны и адаптация;</li><li>обучение и техническое сопровождение.</li></ul></div><div class="path-action"><a class="button button-light" href="mailto:info@promsoftservice.ru?subject=Пилот%20MetaPlatform" data-analytics="contact-pilot">Обсудить пилот <span>↗</span></a><small>Пилот позволяет оценить пользу до полномасштабного внедрения</small></div></article>
+        </div>
+        <div class="service-bridge reveal"><div><p class="section-label">Нужен результат под ключ?</p><h3>PromSoftService выполнит разработку и внедрение ПО АСУ ТП</h3></div><a class="button button-secondary" href="https://promsoftservice.ru" target="_blank" rel="noopener">Перейти на сайт PSS <span>↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="platform section" id="platform">
+      <div class="container">
+        <div class="section-heading reveal"><p class="section-label">Архитектура</p><h2>Пять частей одной системы</h2><p>Названия модулей важны после того, как понятен результат: стандартная логика, шаблоны, генерация, визуализация и проверка.</p></div>
+        <div class="module-track" aria-label="Модули MetaPlatform"><article class="module-card reveal"><span>01</span><h3>MetaLib</h3><p>Промышленная библиотека функциональных блоков для типовых прикладных задач АСУ ТП.</p></article><article class="module-card reveal"><span>02</span><h3>MetaKit</h3><p>Готовые контуры и корпоративные шаблоны для повторного использования.</p></article><article class="module-card reveal"><span>03</span><h3>MetaGen</h3><p>Структурированное описание проекта и генерация PLC-кода и конфигурации.</p></article><article class="module-card reveal"><span>04</span><h3>MetaView</h3><p>HMI-теги, аварии, тренды, адреса и файлы импорта для операторских систем.</p></article><article class="module-card reveal"><span>05</span><h3>MetaLab</h3><p>Логическая виртуальная наладка PLC: имитация поля, сценарии и журнал.</p></article></div>
+      </div>
+    </section>
+
+    <section class="faq section">
+      <div class="container faq-grid">
+        <div class="faq-heading reveal"><p class="section-label">Без маркетингового тумана</p><h2>Что важно знать до первого проекта</h2></div>
+        <div class="faq-list">
+          <details class="reveal"><summary>MetaPlatform предназначена только для котельных?</summary><p>Нет. Платформа работает с типовыми сущностями АСУ ТП: датчиками, механизмами, клапанами, регуляторами, каскадами, авариями и связями. Из этих компонентов собираются насосные станции, вентиляция, технологические линии, холодильные установки, котельные и другие объекты.</p></details>
+          <details class="reveal"><summary>MetaPlatform заменяет программиста АСУ ТП?</summary><p>Нет. Инженер определяет архитектуру, технологическую логику и нестандартные алгоритмы. Платформа автоматизирует повторяемую прикладную работу и обеспечивает единый стандарт её выполнения.</p></details>
+          <details class="reveal"><summary>Что именно было сделано за три часа?</summary><p>На готовых компонентах в MetaPlatform было описано PLC-приложение котельной, сформирован код, выполнен импорт и загрузка в CODESYS. Это не заявление о полном строительстве, SCADA и вводе объекта в эксплуатацию за три часа.</p></details>
+          <details class="reveal"><summary>Сгенерированный код можно увидеть и изменить?</summary><p>Да. MetaPlatform формирует обычный код и файлы для штатных сред TIA Portal и CODESYS. Результат можно читать, компилировать, отлаживать и дорабатывать привычными инструментами.</p></details>
+          <details class="reveal"><summary>Можно использовать собственную библиотеку функциональных блоков?</summary><p>Да. MetaKit позволяет создавать корпоративные шаблоны под свои стандарты, типовые узлы и собственную библиотеку FB.</p></details>
+          <details class="reveal"><summary>MetaLab заменяет физическую пусконаладку?</summary><p>Нет. Это логическая виртуальная наладка. MetaLab имитирует полевые сигналы и отказы, чтобы проверить реакции реальной программы PLC до объекта и сократить объём дорогостоящих исправлений на площадке.</p></details>
+          <details class="reveal"><summary>Что входит в бесплатный ранний доступ?</summary><p>Весь доступный сейчас функционал MetaPlatform. Бесплатный доступ не включает разбор реальных исходных данных заказчика, выполнение проекта, индивидуальную разработку шаблонов, внедрение и постоянное инженерное сопровождение.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="access section" id="access">
+      <div class="container access-panel reveal"><div><p class="section-label">Бесплатный ранний доступ</p><h2>Проверьте MetaPlatform на задаче, которую уже умеете решать вручную</h2><p>Так проще всего увидеть реальный выигрыш во времени, качество результата и объём повторяющейся работы, который платформа снимает с инженера.</p></div><div class="access-action"><a class="button button-primary" href="https://app.tenion.cloud" data-analytics="open-app-final">Попробовать бесплатно <span>↗</span></a><a class="text-link" href="mailto:info@promsoftservice.ru?subject=Пилот%20MetaPlatform" data-analytics="contact-pilot-final">Обсудить пилот для компании →</a><small>Ранний доступ не означает обещание бесплатного использования навсегда</small></div></div>
+    </section>
+
+    <section class="final-cta"><div class="container final-inner reveal"><p class="section-label section-label-light">TENION / MetaPlatform</p><h2>Первый проект — быстрее.<br>Следующие — по тому же стандарту.</h2><div class="final-actions"><a class="button button-light" href="https://app.tenion.cloud" data-analytics="open-app-footer">Открыть MetaPlatform <span>↗</span></a><button class="button button-dark" type="button" disabled>Первый запуск <small>скоро</small></button><button class="button button-dark" type="button" disabled>Центр загрузки <small>скоро</small></button></div></div></section>
+  </main>
+
+  <footer><div class="container footer-inner"><div class="brand footer-brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-name">TENION</span></div><p>MetaPlatform — система автоматизированной разработки программного обеспечения АСУ ТП</p><a href="https://promsoftservice.ru">PromSoftService <span>↗</span></a></div></footer>
+  <script src="/js/main.js" defer></script>
+</body>
 </html>
