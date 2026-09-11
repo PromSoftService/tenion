@@ -95,3 +95,26 @@ document.addEventListener("visibilitychange", () => {
 
   requestVideoUpdate();
 });
+
+document.querySelectorAll("[data-youtube-id]").forEach((container) => {
+  const cover = container.querySelector(".youtube-cover");
+  const thumbnail = cover?.querySelector("img");
+  const videoId = container.getAttribute("data-youtube-id");
+
+  if (!(cover instanceof HTMLButtonElement) || !videoId) return;
+
+  if (thumbnail instanceof HTMLImageElement) {
+    thumbnail.addEventListener("error", () => {
+      thumbnail.src = `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`;
+    }, { once: true });
+  }
+
+  cover.addEventListener("click", () => {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+    iframe.title = "Разработка котельной Валдай в MetaPlatform";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    container.replaceChildren(iframe);
+  }, { once: true });
+});

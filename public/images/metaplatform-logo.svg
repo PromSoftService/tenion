@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="MetaPlatform">
+  <g transform="matrix(0.18433180 0 0 0.18433180 -57.56682028 -46.23041475)">
+    <g id="edges">
+      <line x1="371" y1="410" x2="531" y2="569" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="376" y1="715" x2="531" y2="569" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="605" y1="359" x2="531" y2="569" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="531" y1="569" x2="777" y2="460" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="531" y1="569" x2="629" y2="727" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="605" y1="359" x2="777" y2="460" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="777" y1="460" x2="824" y2="579" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="824" y1="579" x2="952" y2="622" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="824" y1="579" x2="772" y2="701" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="629" y1="727" x2="772" y2="701" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+      <line x1="629" y1="727" x2="695" y2="860" stroke="#102132" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <g id="nodes">
+      <circle cx="531" cy="569" r="88" fill="#0c1825"/>
+      <circle cx="605" cy="359" r="54" fill="#0c1825"/>
+      <circle cx="371" cy="410" r="34" fill="#0c1825"/>
+      <circle cx="376" cy="715" r="34" fill="#0c1825"/>
+      <circle cx="629" cy="727" r="57" fill="#0c1825"/>
+      <circle cx="695" cy="860" r="31" fill="#0c1825"/>
+      <circle cx="777" cy="460" r="53" fill="#03c3fd"/>
+      <circle cx="824" cy="579" r="28" fill="#0c1825"/>
+      <circle cx="952" cy="622" r="30" fill="#0c1825"/>
+      <circle cx="772" cy="701" r="53" fill="#03c3fd"/>
+    </g>
+  </g>
+</svg>
