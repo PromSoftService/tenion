@@ -54,6 +54,22 @@ class MetaPlatformClient:
             expected_status=200,
         )
 
+    def list_users(self) -> list[dict[str, object]]:
+        payload = self._request("GET", "/users", None, expected_status=200)
+        if not isinstance(payload, list) or not all(
+            isinstance(item, dict) for item in payload
+        ):
+            raise MetaPlatformError("Invalid MetaPlatform user list")
+        return payload
+
+    def delete_user(self, username: str) -> dict[str, object]:
+        payload = self._request(
+            "DELETE", f"/users/{username}", None, expected_status=200
+        )
+        if not isinstance(payload, dict) or payload.get("deleted") is not True:
+            raise MetaPlatformError("Invalid MetaPlatform deletion response")
+        return payload
+
     def _request(
         self,
         method: str,

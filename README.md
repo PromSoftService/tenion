@@ -41,6 +41,21 @@ database. Only short-lived HMAC hashes and timestamps are retained for rate
 limiting. The endpoint uses the same origin check, input validation and
 honeypot protection as registration.
 
+## Administration
+
+The unlinked `/admin/` interface lists MetaPlatform users and can permanently
+delete an account through the loopback-only MetaPlatform Admin API. It uses the
+same password as that API, but the password is submitted only during login and
+is never stored in browser storage. Tenion creates a time-limited random admin
+session in an HttpOnly, Secure, SameSite=Strict cookie. Session tokens are
+stored only as HMAC hashes; destructive requests additionally require a CSRF
+token and an exact same-origin request.
+
+Deleting a MetaPlatform user also removes the matching registration
+record from Tenion so the email and username can be registered again. The UI
+requires the administrator to type the exact username before enabling the
+irreversible action. Failed admin logins are rate-limited per IP.
+
 Store the Yandex Mail application password on the server without placing it in
 shell history or chat:
 

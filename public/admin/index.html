@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15171b">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/admin/admin.css?v=20260912-1">
+  <title>Tenion — управление пользователями</title>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div class="brand" aria-label="Tenion"><span class="brand-mark"><i></i><i></i><i></i></span><strong>TENION</strong><span>/ ADMIN</span></div>
+      <button class="quiet-button" type="button" data-logout hidden>Выйти <span>↗</span></button>
+    </header>
+
+    <section class="login-view" data-login-view hidden>
+      <div class="login-copy">
+        <p class="eyebrow">Закрытый раздел</p>
+        <h1>Управление<br>пользователями</h1>
+        <p>Используйте пароль административного API MetaPlatform.</p>
+      </div>
+      <form class="login-card" data-login-form novalidate>
+        <div><span class="card-number">01</span><h2>Вход</h2><p>Пароль передаётся один раз по защищённому соединению и не сохраняется в браузере.</p></div>
+        <label><span>Admin API password</span><input type="password" name="password" autocomplete="current-password" maxlength="256" required autofocus></label>
+        <button class="primary-button" type="submit">Войти <span>→</span></button>
+        <p class="form-status" data-login-status role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="dashboard" data-dashboard hidden>
+      <div class="dashboard-head">
+        <div><p class="eyebrow">MetaPlatform</p><h1>Пользователи</h1></div>
+        <div class="summary">
+          <article><strong data-total-users>0</strong><span>всего</span></article>
+          <article><strong data-active-users>0</strong><span>активных</span></article>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label class="search"><span aria-hidden="true">⌕</span><input type="search" data-user-search placeholder="Найти пользователя" autocomplete="off"></label>
+        <button class="quiet-button refresh-button" type="button" data-refresh>Обновить <span>↻</span></button>
+      </div>
+
+      <div class="notice" data-admin-notice role="status" aria-live="polite" hidden></div>
+
+      <div class="users-panel">
+        <div class="loading-state" data-loading>Загружаем пользователей…</div>
+        <div class="empty-state" data-empty hidden><strong>Пользователей нет</strong><span>Новые учётные записи появятся здесь после регистрации.</span></div>
+        <table data-users-table hidden>
+          <thead><tr><th>Пользователь</th><th>Статус</th><th>Создан</th><th>Последний вход</th><th><span class="sr-only">Действия</span></th></tr></thead>
+          <tbody data-users-body></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="delete-modal" data-delete-modal hidden>
+    <div class="modal-backdrop" data-delete-close></div>
+    <section class="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+      <button class="modal-close" type="button" data-delete-close aria-label="Закрыть">×</button>
+      <p class="eyebrow eyebrow-danger">Безвозвратное действие</p>
+      <h2 id="delete-title">Удалить пользователя?</h2>
+      <p>MetaPlatform удалит учётную запись <strong data-delete-username></strong>, все её проекты, запуски, журналы и артефакты.</p>
+      <label><span>Для подтверждения введите логин</span><input type="text" data-delete-confirm autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+      <div class="dialog-actions"><button class="quiet-button" type="button" data-delete-close>Отмена</button><button class="danger-button" type="button" data-delete-submit disabled>Удалить безвозвратно</button></div>
+      <p class="form-status" data-delete-status role="status" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <script src="/admin/admin.js?v=20260912-1" defer></script>
+</body>
+</html>

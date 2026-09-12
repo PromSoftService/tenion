@@ -21,6 +21,12 @@ class Registration:
     status: str
 
 
+@dataclass(frozen=True)
+class AdminSession:
+    csrf_token: str
+    expires_at: str
+
+
 class RegistrationDatabase:
     def __init__(self, path: Path):
         self.path = path
@@ -67,6 +73,26 @@ class RegistrationDatabase:
                     ON contact_attempts (ip_hash, created_at);
                 CREATE INDEX IF NOT EXISTS contact_attempts_email_time
                     ON contact_attempts (email_hash, created_at);
+
+                CREATE TABLE IF NOT EXISTS admin_login_failures (
+                    id INTEGER PRIMARY KEY,
+                    ip_hash TEXT NOT NULL,
+                    created_at TEXT NOT NULL
+                );
+
+                CREATE INDEX IF NOT EXISTS admin_login_failures_ip_time
+                    ON admin_login_failures (ip_hash, created_at);
+
+                CREATE TABLE IF NOT EXISTS admin_sessions (
+                    token_hash TEXT PRIMARY KEY,
+                    csrf_token TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    last_seen_at TEXT NOT NULL,
+                    expires_at TEXT NOT NULL
+                );
+
+                CREATE INDEX IF NOT EXISTS admin_sessions_expiry
+                    ON admin_sessions (expires_at);
                 """
             )
 
@@ -181,6 +207,96 @@ class RegistrationDatabase:
         with self._connect() as connection:
             connection.execute(
                 "DELETE FROM registrations WHERE email = ? AND status != 'sent'", (email,)
+            )
+
+    def registration_emails_by_username(self) -> dict[str, str]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT username, email FROM registrations"
+            ).fetchall()
+        return {str(username): str(email) for username, email in rows}
+
+    def delete_registration_by_username(self, username: str) -> bool:
+        with self._connect() as connection:
+            cursor = connection.execute(
+                "DELETE FROM registrations WHERE username = ?", (username,)
+            )
+            return cursor.rowcount > 0
+
+    def admin_login_allowed(self, ip_hash: str) -> bool:
+        now = utc_now()
+        cutoff = timestamp(now - timedelta(minutes=15))
+        prune_before = timestamp(now - timedelta(days=1))
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "DELETE FROM admin_login_failures WHERE created_at < ?",
+                (prune_before,),
+            )
+            count = connection.execute(
+                """SELECT COUNT(*) FROM admin_login_failures
+                   WHERE ip_hash = ? AND created_at >= ?""",
+                (ip_hash, cutoff),
+            ).fetchone()[0]
+            connection.commit()
+            return count < 5
+
+    def record_admin_login_failure(self, ip_hash: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO admin_login_failures (ip_hash, created_at) VALUES (?, ?)",
+                (ip_hash, timestamp()),
+            )
+
+    def clear_admin_login_failures(self, ip_hash: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "DELETE FROM admin_login_failures WHERE ip_hash = ?", (ip_hash,)
+            )
+
+    def create_admin_session(
+        self, token_hash: str, csrf_token: str, expires_at: str
+    ) -> None:
+        now = timestamp()
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "DELETE FROM admin_sessions WHERE expires_at <= ?", (now,)
+            )
+            connection.execute(
+                """INSERT INTO admin_sessions (
+                       token_hash, csrf_token, created_at, last_seen_at, expires_at
+                   ) VALUES (?, ?, ?, ?, ?)""",
+                (token_hash, csrf_token, now, now, expires_at),
+            )
+            connection.commit()
+
+    def get_admin_session(self, token_hash: str) -> AdminSession | None:
+        now = timestamp()
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "DELETE FROM admin_sessions WHERE expires_at <= ?", (now,)
+            )
+            row = connection.execute(
+                """SELECT csrf_token, expires_at FROM admin_sessions
+                   WHERE token_hash = ?""",
+                (token_hash,),
+            ).fetchone()
+            if row is None:
+                connection.commit()
+                return None
+            connection.execute(
+                "UPDATE admin_sessions SET last_seen_at = ? WHERE token_hash = ?",
+                (now, token_hash),
+            )
+            connection.commit()
+            return AdminSession(csrf_token=str(row[0]), expires_at=str(row[1]))
+
+    def delete_admin_session(self, token_hash: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "DELETE FROM admin_sessions WHERE token_hash = ?", (token_hash,)
             )
 
     def _connect(self) -> sqlite3.Connection:

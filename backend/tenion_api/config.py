@@ -46,6 +46,7 @@ class Settings:
     mail_reply_to: str
     ip_hash_secret: str
     contact_recipient: str = "info@promsoftservice.ru"
+    admin_session_ttl_seconds: int = 28800
 
     @classmethod
     def from_environment(cls) -> "Settings":
@@ -65,6 +66,19 @@ class Settings:
         if smtp_security not in {"ssl", "starttls"}:
             raise ConfigurationError("TENION_SMTP_SECURITY must be ssl or starttls")
 
+        try:
+            admin_session_ttl_seconds = int(
+                os.environ.get("TENION_ADMIN_SESSION_TTL_SECONDS", "28800")
+            )
+        except ValueError as error:
+            raise ConfigurationError(
+                "TENION_ADMIN_SESSION_TTL_SECONDS must be an integer"
+            ) from error
+        if not 900 <= admin_session_ttl_seconds <= 86400:
+            raise ConfigurationError(
+                "TENION_ADMIN_SESSION_TTL_SECONDS must be between 900 and 86400"
+            )
+
         return cls(
             data_root=Path(os.environ.get("TENION_DATA_ROOT", "/srv/tenion/data")).resolve(),
             public_origin=public_origin,
@@ -83,4 +97,5 @@ class Settings:
                 "TENION_CONTACT_RECIPIENT", "info@promsoftservice.ru"
             ).strip()
             or "info@promsoftservice.ru",
+            admin_session_ttl_seconds=admin_session_ttl_seconds,
         )

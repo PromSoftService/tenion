@@ -7,6 +7,7 @@ from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from .admin import ADMIN_COOKIE_NAME, AdminService
 from .config import Settings
 from .database import RegistrationDatabase
 from .service import ContactService, RegistrationIssue, RegistrationService
@@ -31,10 +32,17 @@ class ContactRequest(BaseModel):
     website: str = Field(default="", max_length=200)
 
 
+class AdminLoginRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    password: str = Field(min_length=1, max_length=256)
+
+
 settings = Settings.from_environment()
 database = RegistrationDatabase(settings.data_root / "tenion.db")
 service = RegistrationService(settings, database)
 contact_service = ContactService(settings, database)
+admin_service = AdminService(settings, database)
 
 
 @asynccontextmanager
@@ -73,6 +81,16 @@ def client_ip(request: Request) -> str:
         if forwarded_for:
             value = forwarded_for.split(",", 1)[0].strip()
     return value
+
+
+def require_public_origin(origin: str | None) -> None:
+    if origin != settings.public_origin:
+        raise RegistrationIssue("INVALID_ORIGIN", "Запрос отклонён.", status=403)
+
+
+def admin_session(request: Request) -> tuple[str | None, str]:
+    token = request.cookies.get(ADMIN_COOKIE_NAME)
+    return token, admin_service.authenticate(token)
 
 
 @app.post("/api/register", status_code=201)
@@ -149,5 +167,86 @@ def contact(
             "ok": True,
             "message": "Сообщение отправлено. Мы ответим на указанную почту.",
         },
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.post("/api/admin/session")
+def admin_login(
+    payload: AdminLoginRequest,
+    request: Request,
+    origin: Annotated[str | None, Header()] = None,
+):
+    require_public_origin(origin)
+    token, csrf_token = admin_service.login(payload.password, client_ip(request))
+    response = JSONResponse(
+        content={"ok": True, "csrfToken": csrf_token},
+        headers={"Cache-Control": "no-store"},
+    )
+    response.set_cookie(
+        key=ADMIN_COOKIE_NAME,
+        value=token,
+        max_age=settings.admin_session_ttl_seconds,
+        secure=True,
+        httponly=True,
+        samesite="strict",
+        path="/api/admin",
+    )
+    return response
+
+
+@app.get("/api/admin/session")
+def admin_session_status(request: Request):
+    _, csrf_token = admin_session(request)
+    return JSONResponse(
+        content={"ok": True, "csrfToken": csrf_token},
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.delete("/api/admin/session")
+def admin_logout(
+    request: Request,
+    origin: Annotated[str | None, Header()] = None,
+    x_tenion_admin_csrf: Annotated[str | None, Header()] = None,
+):
+    require_public_origin(origin)
+    token, csrf_token = admin_session(request)
+    admin_service.require_csrf(csrf_token, x_tenion_admin_csrf)
+    admin_service.logout(token)
+    response = JSONResponse(
+        content={"ok": True}, headers={"Cache-Control": "no-store"}
+    )
+    response.delete_cookie(
+        key=ADMIN_COOKIE_NAME,
+        path="/api/admin",
+        secure=True,
+        httponly=True,
+        samesite="strict",
+    )
+    return response
+
+
+@app.get("/api/admin/users")
+def admin_users(request: Request):
+    admin_session(request)
+    return JSONResponse(
+        content={"ok": True, "users": admin_service.list_users()},
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.delete("/api/admin/users/{username}")
+def admin_delete_user(
+    username: str,
+    request: Request,
+    origin: Annotated[str | None, Header()] = None,
+    x_tenion_admin_csrf: Annotated[str | None, Header()] = None,
+):
+    require_public_origin(origin)
+    _, csrf_token = admin_session(request)
+    admin_service.require_csrf(csrf_token, x_tenion_admin_csrf)
+    return JSONResponse(
+        content={"ok": True, "result": admin_service.delete_user(username)},
         headers={"Cache-Control": "no-store"},
     )
