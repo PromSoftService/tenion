@@ -1294,6 +1294,13 @@ p {
 .registration-submit:hover:not(:disabled) { background: #f4f5f7; }
 .registration-submit:disabled { cursor: wait; opacity: 0.72; }
 
+.registration-submit.is-success:disabled {
+  cursor: default;
+  opacity: 1;
+  background: #d9eee7;
+  color: #153c31;
+}
+
 .registration-submit.is-loading span {
   width: 14px;
   height: 14px;
