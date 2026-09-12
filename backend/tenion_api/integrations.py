@@ -110,6 +110,34 @@ class Mailer:
         message.set_content(self._plain_text(username, password))
         message.add_alternative(self._html_text(username, password), subtype="html")
 
+        self._send(message)
+
+    def send_contact(self, name: str, email: str, text: str, topic: str) -> None:
+        topic_label = {
+            "team": "Применение MetaPlatform",
+            "pilot": "Пилот MetaPlatform",
+        }[topic]
+        message = EmailMessage()
+        message["Subject"] = f"[Tenion] {topic_label}: {name}"
+        message["From"] = formataddr(
+            (self.settings.mail_from_name, self.settings.mail_from_address)
+        )
+        message["To"] = self.settings.contact_recipient
+        message["Reply-To"] = email
+        message.set_content(
+            f"""Новая заявка с tenion.cloud
+
+Тема: {topic_label}
+Имя: {name}
+Email: {email}
+
+Сообщение:
+{text}
+"""
+        )
+        self._send(message)
+
+    def _send(self, message: EmailMessage) -> None:
         context = ssl.create_default_context()
         if self.settings.smtp_security == "ssl":
             with smtplib.SMTP_SSL(
@@ -178,4 +206,3 @@ PromSoftService
   </div>
 </body>
 </html>"""
-
