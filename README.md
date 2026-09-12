@@ -29,6 +29,18 @@ The public endpoint checks the request origin, rejects oversized/invalid input,
 uses a honeypot and applies per-IP and per-email rate limits. Secrets are read
 only from the production environment and must never be committed.
 
+## Contact requests
+
+`POST /api/contact` accepts a name, email, message and one of the supported
+request topics. The enquiry forms on the site deliver the message to the
+address configured in `TENION_CONTACT_RECIPIENT`; the visitor's email is set as
+`Reply-To` so the team can answer directly.
+
+Contact names, email addresses and message text are not stored in Tenion's
+database. Only short-lived HMAC hashes and timestamps are retained for rate
+limiting. The endpoint uses the same origin check, input validation and
+honeypot protection as registration.
+
 Store the Yandex Mail application password on the server without placing it in
 shell history or chat:
 
@@ -52,5 +64,6 @@ docker build -f backend/Dockerfile -t pss-tenion-api:COMMIT .
 
 - Free-access calls to action lead to the registration form.
 - Existing users can open `app.tenion.cloud` directly.
-- Team and implementation enquiries use `mailto:info@promsoftservice.ru`.
+- Team and implementation enquiries open the contact form and are delivered to
+  `info@promsoftservice.ru` by the server.
 - “First start” and “Download center” stay disabled until their content is ready.
