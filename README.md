@@ -15,7 +15,7 @@ For a local preview, serve that directory with any static HTTP server.
 `POST /api/register` accepts an email, a requested MetaPlatform username and an
 explicit consent flag. The service:
 
-1. creates a 12-character cryptographically random password;
+1. creates an 8-character cryptographically random password;
 2. hashes it with the exact MetaPlatform Argon2id policy;
 3. creates a disabled account through the loopback-only MetaPlatform admin API;
 4. sends the credentials by SMTP;
