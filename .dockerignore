@@ -1,0 +1,10 @@
+.git
+.gitignore
+.dockerignore
+public
+deploy
+backend/.env
+backend/.env.*
+backend/tests
+backend/**/__pycache__
+backend/**/*.pyc

@@ -118,3 +118,69 @@ document.querySelectorAll("[data-youtube-id]").forEach((container) => {
     container.replaceChildren(iframe);
   }, { once: true });
 });
+
+const registrationForm = document.querySelector("#registration-form");
+
+if (registrationForm instanceof HTMLFormElement) {
+  const status = registrationForm.querySelector("[data-registration-status]");
+  const submit = registrationForm.querySelector("button[type='submit']");
+  const username = registrationForm.elements.namedItem("username");
+
+  if (username instanceof HTMLInputElement) {
+    username.addEventListener("input", () => {
+      username.value = username.value.toLowerCase().replace(/\s+/g, "");
+    });
+  }
+
+  registrationForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!registrationForm.reportValidity()) return;
+    if (!(submit instanceof HTMLButtonElement)) return;
+
+    const data = new FormData(registrationForm);
+    const payload = {
+      email: String(data.get("email") || "").trim(),
+      username: String(data.get("username") || "").trim(),
+      consent: data.get("consent") === "on",
+      website: String(data.get("website") || ""),
+    };
+
+    submit.disabled = true;
+    submit.classList.add("is-loading");
+    submit.firstChild.textContent = "Создаём доступ ";
+    if (status instanceof HTMLElement) {
+      status.textContent = "";
+      status.className = "registration-status";
+    }
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result?.error?.message || "Не удалось создать доступ. Попробуйте ещё раз.");
+      }
+
+      registrationForm.classList.add("is-complete");
+      registrationForm.querySelectorAll("input, button").forEach((element) => {
+        element.disabled = true;
+      });
+      if (status instanceof HTMLElement) {
+        status.textContent = result.message || "Доступ создан. Проверьте почту.";
+        status.classList.add("is-success");
+      }
+    } catch (error) {
+      if (status instanceof HTMLElement) {
+        status.textContent = error instanceof Error ? error.message : "Не удалось создать доступ.";
+        status.classList.add("is-error");
+      }
+      submit.disabled = false;
+      submit.classList.remove("is-loading");
+      submit.firstChild.textContent = "Получить доступ ";
+    }
+  });
+}

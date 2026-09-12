@@ -1174,7 +1174,7 @@ p {
   padding: clamp(42px, 6vw, 76px);
   grid-template-columns: 1.28fr 0.72fr;
   gap: 80px;
-  align-items: end;
+  align-items: start;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--surface);
@@ -1187,25 +1187,162 @@ p {
   font-size: clamp(38px, 4.4vw, 60px);
 }
 
-.access-panel > div:first-child > p:last-child {
+.access-copy > p:last-child {
   max-width: 720px;
   margin-bottom: 0;
   color: var(--muted);
   font-size: 15px;
 }
 
-.access-action {
+.registration-form {
   display: grid;
+  padding: 32px;
   gap: 18px;
-  justify-items: start;
+  border-radius: 20px;
+  background: var(--dark);
+  color: #fff;
 }
 
-.access-action small {
-  max-width: 360px;
-  color: var(--dim);
+.registration-form-head > span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.registration-form-head p {
+  margin: 0;
+  color: #aeb3bd;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field > span {
+  color: #d8dbe0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.form-field input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.form-field input::placeholder { color: #747a85; }
+
+.form-field input:focus {
+  border-color: rgba(239, 96, 59, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 4px rgba(217, 43, 82, 0.14);
+}
+
+.form-field small,
+.registration-note {
+  color: #818792;
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.form-consent {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: start;
+  color: #aeb3bd;
+  cursor: pointer;
   font-size: 10px;
   line-height: 1.55;
 }
+
+.form-consent input {
+  width: 16px;
+  height: 16px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+}
+
+.form-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.registration-submit {
+  width: 100%;
+  background: #fff;
+  color: var(--dark);
+  box-shadow: none;
+}
+
+.registration-submit:hover:not(:disabled) { background: #f4f5f7; }
+.registration-submit:disabled { cursor: wait; opacity: 0.72; }
+
+.registration-submit.is-loading span {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(21, 23, 27, 0.24);
+  border-top-color: var(--dark);
+  border-radius: 50%;
+  font-size: 0;
+  animation: registration-spin 700ms linear infinite;
+}
+
+.registration-status {
+  display: none;
+  margin: 0;
+  padding: 13px 15px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.registration-status.is-error,
+.registration-status.is-success { display: block; }
+.registration-status.is-error { background: rgba(217, 43, 82, 0.18); color: #ffc6d2; }
+.registration-status.is-success { background: rgba(44, 139, 105, 0.2); color: #bcebdc; }
+
+.registration-links {
+  display: grid;
+  gap: 9px;
+}
+
+.registration-links a {
+  width: fit-content;
+  color: #d8dbe0;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.registration-links a:hover { color: #fff; }
+
+.button-dark-link {
+  color: #d8dbe0;
+  cursor: pointer;
+}
+
+.button-dark-link:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes registration-spin { to { transform: rotate(360deg); } }
 
 .final-cta {
   padding-block: 110px;
@@ -1416,7 +1553,7 @@ footer {
   .standard-points article { min-height: auto; grid-template-columns: 42px 1fr; }
   .faq-list summary { padding-right: 46px; font-size: 15px; }
   .access-panel { padding: 32px 22px; border-radius: 20px; }
-  .access-action .button { width: 100%; }
+  .registration-form { padding: 26px 20px; }
   .final-cta { padding-block: 78px; }
   .final-actions .button { width: 100%; }
   .final-inner h2 span { white-space: normal; }
