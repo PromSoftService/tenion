@@ -55,6 +55,18 @@ class RegistrationDatabase:
                     ON registration_attempts (ip_hash, created_at);
                 CREATE INDEX IF NOT EXISTS registration_attempts_email_time
                     ON registration_attempts (email_hash, created_at);
+
+                CREATE TABLE IF NOT EXISTS contact_attempts (
+                    id INTEGER PRIMARY KEY,
+                    ip_hash TEXT NOT NULL,
+                    email_hash TEXT NOT NULL,
+                    created_at TEXT NOT NULL
+                );
+
+                CREATE INDEX IF NOT EXISTS contact_attempts_ip_time
+                    ON contact_attempts (ip_hash, created_at);
+                CREATE INDEX IF NOT EXISTS contact_attempts_email_time
+                    ON contact_attempts (email_hash, created_at);
                 """
             )
 
@@ -122,6 +134,36 @@ class RegistrationDatabase:
             )
             connection.commit()
             return Registration(email, username, "processing"), False
+
+    def record_contact_attempt_and_check_limit(
+        self, ip_hash: str, email_hash: str
+    ) -> bool:
+        now = utc_now()
+        ten_minutes_ago = timestamp(now - timedelta(minutes=10))
+        one_hour_ago = timestamp(now - timedelta(hours=1))
+        one_day_ago = timestamp(now - timedelta(days=1))
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "DELETE FROM contact_attempts WHERE created_at < ?", (one_day_ago,)
+            )
+            ip_count = connection.execute(
+                "SELECT COUNT(*) FROM contact_attempts WHERE ip_hash = ? AND created_at >= ?",
+                (ip_hash, ten_minutes_ago),
+            ).fetchone()[0]
+            email_count = connection.execute(
+                "SELECT COUNT(*) FROM contact_attempts WHERE email_hash = ? AND created_at >= ?",
+                (email_hash, one_hour_ago),
+            ).fetchone()[0]
+            if ip_count >= 5 or email_count >= 3:
+                connection.commit()
+                return False
+            connection.execute(
+                "INSERT INTO contact_attempts (ip_hash, email_hash, created_at) VALUES (?, ?, ?)",
+                (ip_hash, email_hash, timestamp(now)),
+            )
+            connection.commit()
+            return True
 
     def set_status(self, email: str, status: str, error: str | None = None) -> None:
         sent_at = timestamp() if status == "sent" else None
