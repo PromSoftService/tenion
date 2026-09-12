@@ -45,6 +45,7 @@ class Settings:
     mail_from_name: str
     mail_reply_to: str
     ip_hash_secret: str
+    contact_recipient: str = "info@promsoftservice.ru"
 
     @classmethod
     def from_environment(cls) -> "Settings":
@@ -78,4 +79,8 @@ class Settings:
             mail_from_name=os.environ.get("TENION_MAIL_FROM_NAME", "MetaPlatform").strip() or "MetaPlatform",
             mail_reply_to=_required("TENION_MAIL_REPLY_TO"),
             ip_hash_secret=_required("TENION_IP_HASH_SECRET"),
+            contact_recipient=os.environ.get(
+                "TENION_CONTACT_RECIPIENT", "info@promsoftservice.ru"
+            ).strip()
+            or "info@promsoftservice.ru",
         )
