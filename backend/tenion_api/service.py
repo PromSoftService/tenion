@@ -16,6 +16,7 @@ from .integrations import Mailer, MetaPlatformClient, MetaPlatformError
 USERNAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9._-]{2,63}$")
 EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 PASSWORD_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"
+CONTACT_TOPICS = {"team", "pilot"}
 
 
 class RegistrationIssue(RuntimeError):
@@ -136,6 +137,64 @@ class RegistrationService:
         ).hexdigest()
 
 
+class ContactService:
+    def __init__(
+        self,
+        settings: Settings,
+        database: RegistrationDatabase,
+        mailer: Mailer | None = None,
+    ):
+        self.settings = settings
+        self.database = database
+        self.mailer = mailer or Mailer(settings)
+
+    def send(
+        self,
+        name: str,
+        email: str,
+        message: str,
+        topic: str,
+        client_ip: str,
+    ) -> None:
+        normalized_name = normalize_contact_name(name)
+        normalized_email = normalize_email(email)
+        normalized_message = normalize_contact_message(message)
+        normalized_topic = str(topic or "").strip().lower()
+        if normalized_topic not in CONTACT_TOPICS:
+            raise RegistrationIssue(
+                "INVALID_TOPIC", "Некорректная тема обращения.", status=422
+            )
+
+        ip_hash = self._digest(client_ip)
+        email_hash = self._digest(normalized_email)
+        if not self.database.record_contact_attempt_and_check_limit(ip_hash, email_hash):
+            raise RegistrationIssue(
+                "RATE_LIMITED",
+                "Слишком много сообщений. Попробуйте ещё раз немного позже.",
+                status=429,
+            )
+        try:
+            self.mailer.send_contact(
+                normalized_name,
+                normalized_email,
+                normalized_message,
+                normalized_topic,
+            )
+        except (OSError, smtplib.SMTPException) as error:
+            raise RegistrationIssue(
+                "MAIL_UNAVAILABLE",
+                "Не удалось отправить сообщение. Попробуйте ещё раз немного позже.",
+                status=503,
+            ) from error
+
+    def _digest(self, value: str) -> str:
+        return hmac.new(
+            self.settings.ip_hash_secret.encode("utf-8"),
+            value.encode("utf-8"),
+            hashlib.sha256,
+        ).hexdigest()
+
+
 def normalize_username(value: str) -> str:
     username = value.strip().lower()
     if not USERNAME_PATTERN.fullmatch(username):
@@ -161,6 +220,26 @@ def normalize_email(value: str) -> str:
             "INVALID_EMAIL", "Проверьте адрес электронной почты.", status=422
         ) from error
     return f"{local}@{domain}"
+
+
+def normalize_contact_name(value: str) -> str:
+    name = " ".join(str(value or "").split())
+    if not 2 <= len(name) <= 100:
+        raise RegistrationIssue(
+            "INVALID_NAME", "Укажите имя длиной от 2 до 100 символов.", status=422
+        )
+    return name
+
+
+def normalize_contact_message(value: str) -> str:
+    message = str(value or "").strip()
+    if not 10 <= len(message) <= 4000:
+        raise RegistrationIssue(
+            "INVALID_MESSAGE",
+            "Сообщение должно содержать от 10 до 4000 символов.",
+            status=422,
+        )
+    return message
 
 
 def generate_password(length: int = 12) -> str:
