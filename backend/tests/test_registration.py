@@ -78,7 +78,7 @@ def test_registration_creates_disabled_user_sends_mail_and_enables(
 
     assert mp.actions == [("create", "engineer-1"), ("enable", "engineer-1")]
     assert mailer.sent[0][0:2] == ("engineer@example.com", "engineer-1")
-    assert len(mailer.sent[0][2]) == 8
+    assert len(mailer.sent[0][2]) == 12
 
 
 def test_duplicate_email_is_rejected(settings: Settings) -> None:
@@ -134,7 +134,7 @@ def test_invalid_emails(email: str) -> None:
 def test_password_matches_metaplatform_policy() -> None:
     for _ in range(100):
         password = generate_password()
-        assert len(password) == 8
+        assert len(password) == 12
         assert any(character.islower() for character in password)
         assert any(character.isupper() for character in password)
         assert any(character.isdigit() for character in password)
