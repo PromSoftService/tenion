@@ -1341,7 +1341,6 @@ p {
 
 .button-dark-link {
   color: #d8dbe0;
-  cursor: pointer;
 }
 
 .button-dark-link:hover {
@@ -1390,8 +1389,10 @@ p {
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.05);
   color: #9ea3ac;
-  cursor: not-allowed;
+  cursor: default;
 }
+
+.button-dark-link { cursor: pointer; }
 
 .button-dark small {
   color: #737984;
