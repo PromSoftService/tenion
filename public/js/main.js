@@ -192,3 +192,141 @@ if (registrationForm instanceof HTMLFormElement) {
     }
   });
 }
+
+const contactModal = document.querySelector("[data-contact-modal]");
+const contactForm = document.querySelector("#contact-form");
+let contactTrigger = null;
+let contactPending = false;
+
+const contactTitles = {
+  team: "Обсудить применение MetaPlatform",
+  pilot: "Обсудить пилот MetaPlatform",
+};
+
+const resetContactForm = () => {
+  if (!(contactForm instanceof HTMLFormElement)) return;
+  contactForm.reset();
+  contactForm.querySelectorAll("input, textarea, button").forEach((element) => {
+    element.disabled = false;
+  });
+  const submit = contactForm.querySelector("button[type='submit']");
+  if (submit instanceof HTMLButtonElement) {
+    submit.classList.remove("is-loading", "is-success");
+    submit.removeAttribute("aria-busy");
+    submit.firstChild.textContent = "Отправить ";
+    const icon = submit.querySelector("span");
+    if (icon instanceof HTMLElement) icon.textContent = "→";
+  }
+  const status = contactForm.querySelector("[data-contact-status]");
+  if (status instanceof HTMLElement) {
+    status.textContent = "";
+    status.className = "registration-status";
+  }
+};
+
+const openContactModal = (topic, trigger) => {
+  if (!(contactModal instanceof HTMLElement) || !(contactForm instanceof HTMLFormElement)) return;
+  if (!contactPending) resetContactForm();
+
+  const normalizedTopic = topic === "team" ? "team" : "pilot";
+  const topicInput = contactForm.elements.namedItem("topic");
+  const title = contactForm.querySelector("#contact-title");
+  if (topicInput instanceof HTMLInputElement) topicInput.value = normalizedTopic;
+  if (title instanceof HTMLElement) title.textContent = contactTitles[normalizedTopic];
+
+  contactTrigger = trigger instanceof HTMLElement ? trigger : null;
+  contactModal.hidden = false;
+  document.body.classList.add("has-contact-modal");
+  const name = contactForm.elements.namedItem("name");
+  if (name instanceof HTMLInputElement) window.setTimeout(() => name.focus(), 0);
+};
+
+const closeContactModal = () => {
+  if (!(contactModal instanceof HTMLElement)) return;
+  contactModal.hidden = true;
+  document.body.classList.remove("has-contact-modal");
+  contactTrigger?.focus();
+};
+
+document.querySelectorAll("[data-contact-open]").forEach((trigger) => {
+  trigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    openContactModal(trigger.getAttribute("data-contact-open"), trigger);
+  });
+});
+
+document.querySelectorAll("[data-contact-close]").forEach((control) => {
+  control.addEventListener("click", closeContactModal);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && contactModal instanceof HTMLElement && !contactModal.hidden) {
+    closeContactModal();
+  }
+});
+
+if (contactForm instanceof HTMLFormElement) {
+  const status = contactForm.querySelector("[data-contact-status]");
+  const submit = contactForm.querySelector("button[type='submit']");
+
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!contactForm.reportValidity() || !(submit instanceof HTMLButtonElement) || contactPending) return;
+
+    const data = new FormData(contactForm);
+    const payload = {
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      message: String(data.get("message") || "").trim(),
+      topic: String(data.get("topic") || "pilot"),
+      website: String(data.get("website") || ""),
+    };
+
+    contactPending = true;
+    submit.disabled = true;
+    submit.classList.add("is-loading");
+    submit.setAttribute("aria-busy", "true");
+    submit.firstChild.textContent = "Отправляем ";
+    if (status instanceof HTMLElement) {
+      status.textContent = "";
+      status.className = "registration-status";
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result?.error?.message || "Не удалось отправить сообщение. Попробуйте ещё раз.");
+      }
+
+      contactForm.querySelectorAll("input, textarea, button").forEach((element) => {
+        element.disabled = true;
+      });
+      submit.classList.remove("is-loading");
+      submit.classList.add("is-success");
+      submit.removeAttribute("aria-busy");
+      submit.firstChild.textContent = "Сообщение отправлено ";
+      const icon = submit.querySelector("span");
+      if (icon instanceof HTMLElement) icon.textContent = "✓";
+      if (status instanceof HTMLElement) {
+        status.textContent = result.message || "Сообщение отправлено. Мы ответим на указанную почту.";
+        status.classList.add("is-success");
+      }
+    } catch (error) {
+      if (status instanceof HTMLElement) {
+        status.textContent = error instanceof Error ? error.message : "Не удалось отправить сообщение.";
+        status.classList.add("is-error");
+      }
+      submit.disabled = false;
+      submit.classList.remove("is-loading");
+      submit.removeAttribute("aria-busy");
+      submit.firstChild.textContent = "Отправить ";
+    } finally {
+      contactPending = false;
+    }
+  });
+}
