@@ -9,9 +9,12 @@ from argon2 import extract_parameters, Type
 from tenion_api.config import Settings
 from tenion_api.database import RegistrationDatabase
 from tenion_api.service import (
+    ContactService,
     RegistrationIssue,
     RegistrationService,
     generate_password,
+    normalize_contact_message,
+    normalize_contact_name,
     normalize_email,
     normalize_username,
 )
@@ -36,9 +39,13 @@ class FakeMetaPlatform:
 class FakeMailer:
     def __init__(self):
         self.sent: list[tuple[str, str, str]] = []
+        self.sent_contacts: list[tuple[str, str, str, str]] = []
 
     def send_access(self, email: str, username: str, password: str) -> None:
         self.sent.append((email, username, password))
+
+    def send_contact(self, name: str, email: str, text: str, topic: str) -> None:
+        self.sent_contacts.append((name, email, text, topic))
 
 
 class FailingMailer(FakeMailer):
@@ -151,3 +158,82 @@ def test_hash_matches_metaplatform_argon2_policy(settings: Settings) -> None:
     assert parameters.parallelism == 4
     assert parameters.hash_len == 32
     assert parameters.salt_len == 16
+
+
+def test_contact_is_normalized_and_sent(settings: Settings) -> None:
+    database = RegistrationDatabase(settings.data_root / "tenion.db")
+    database.initialize()
+    mailer = FakeMailer()
+    service = ContactService(settings, database, mailer)
+
+    service.send(
+        "  Иван   Петров ",
+        "Engineer@Example.com ",
+        "  Хотим обсудить пилот на насосной станции.  ",
+        "PILOT",
+        "192.0.2.10",
+    )
+
+    assert mailer.sent_contacts == [
+        (
+            "Иван Петров",
+            "engineer@example.com",
+            "Хотим обсудить пилот на насосной станции.",
+            "pilot",
+        )
+    ]
+
+
+@pytest.mark.parametrize("name", ["", "И", "x" * 101])
+def test_invalid_contact_names(name: str) -> None:
+    with pytest.raises(RegistrationIssue):
+        normalize_contact_name(name)
+
+
+@pytest.mark.parametrize("message", ["", "коротко", "x" * 4001])
+def test_invalid_contact_messages(message: str) -> None:
+    with pytest.raises(RegistrationIssue):
+        normalize_contact_message(message)
+
+
+def test_invalid_contact_topic_is_rejected(settings: Settings) -> None:
+    database = RegistrationDatabase(settings.data_root / "tenion.db")
+    database.initialize()
+    service = ContactService(settings, database, FakeMailer())
+
+    with pytest.raises(RegistrationIssue) as caught:
+        service.send(
+            "Иван Петров",
+            "engineer@example.com",
+            "Хотим обсудить применение платформы.",
+            "sales",
+            "192.0.2.10",
+        )
+
+    assert caught.value.code == "INVALID_TOPIC"
+
+
+def test_contact_email_rate_limit(settings: Settings) -> None:
+    database = RegistrationDatabase(settings.data_root / "tenion.db")
+    database.initialize()
+    service = ContactService(settings, database, FakeMailer())
+
+    for index in range(3):
+        service.send(
+            "Иван Петров",
+            "engineer@example.com",
+            "Хотим обсудить применение платформы.",
+            "team",
+            f"192.0.2.{index + 1}",
+        )
+
+    with pytest.raises(RegistrationIssue) as caught:
+        service.send(
+            "Иван Петров",
+            "engineer@example.com",
+            "Хотим обсудить применение платформы.",
+            "team",
+            "192.0.2.99",
+        )
+
+    assert caught.value.code == "RATE_LIMITED"
