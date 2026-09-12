@@ -163,7 +163,7 @@ def normalize_email(value: str) -> str:
     return f"{local}@{domain}"
 
 
-def generate_password(length: int = 12) -> str:
+def generate_password(length: int = 8) -> str:
     while True:
         password = "".join(secrets.choice(PASSWORD_ALPHABET) for _ in range(length))
         if (
