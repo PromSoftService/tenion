@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .config import Settings
 from .database import RegistrationDatabase
-from .service import RegistrationIssue, RegistrationService
+from .service import ContactService, RegistrationIssue, RegistrationService
 
 
 class RegistrationRequest(BaseModel):
@@ -21,9 +21,20 @@ class RegistrationRequest(BaseModel):
     website: str = Field(default="", max_length=200)
 
 
+class ContactRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(min_length=2, max_length=100)
+    email: str = Field(min_length=3, max_length=254)
+    message: str = Field(min_length=10, max_length=4000)
+    topic: str = Field(min_length=4, max_length=10)
+    website: str = Field(default="", max_length=200)
+
+
 settings = Settings.from_environment()
 database = RegistrationDatabase(settings.data_root / "tenion.db")
 service = RegistrationService(settings, database)
+contact_service = ContactService(settings, database)
 
 
 @asynccontextmanager
@@ -33,7 +44,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="Tenion registration API",
+    title="Tenion portal API",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
@@ -53,6 +64,15 @@ async def registration_issue_handler(_: Request, error: RegistrationIssue):
 @app.get("/healthz")
 def healthz():
     return {"status": "ok"}
+
+
+def client_ip(request: Request) -> str:
+    value = request.client.host if request.client else "unknown"
+    if value in {"127.0.0.1", "::1"}:
+        forwarded_for = request.headers.get("x-forwarded-for", "")
+        if forwarded_for:
+            value = forwarded_for.split(",", 1)[0].strip()
+    return value
 
 
 @app.post("/api/register", status_code=201)
@@ -83,13 +103,7 @@ def register(
             status=422,
         )
 
-    client_ip = request.client.host if request.client else "unknown"
-    if client_ip in {"127.0.0.1", "::1"}:
-        forwarded_for = request.headers.get("x-forwarded-for", "")
-        if forwarded_for:
-            client_ip = forwarded_for.split(",", 1)[0].strip()
-
-    service.register(payload.email, payload.username, client_ip)
+    service.register(payload.email, payload.username, client_ip(request))
     return JSONResponse(
         status_code=201,
         content={
@@ -99,3 +113,41 @@ def register(
         headers={"Cache-Control": "no-store"},
     )
 
+
+@app.post("/api/contact", status_code=201)
+def contact(
+    payload: ContactRequest,
+    request: Request,
+    origin: Annotated[str | None, Header()] = None,
+):
+    if origin != settings.public_origin:
+        return JSONResponse(
+            status_code=403,
+            content={
+                "ok": False,
+                "error": {"code": "INVALID_ORIGIN", "message": "Запрос отклонён."},
+            },
+            headers={"Cache-Control": "no-store"},
+        )
+    if payload.website:
+        return JSONResponse(
+            status_code=201,
+            content={"ok": True},
+            headers={"Cache-Control": "no-store"},
+        )
+
+    contact_service.send(
+        payload.name,
+        payload.email,
+        payload.message,
+        payload.topic,
+        client_ip(request),
+    )
+    return JSONResponse(
+        status_code=201,
+        content={
+            "ok": True,
+            "message": "Сообщение отправлено. Мы ответим на указанную почту.",
+        },
+        headers={"Cache-Control": "no-store"},
+    )
