@@ -1231,7 +1231,8 @@ p {
   text-transform: uppercase;
 }
 
-.form-field input {
+.form-field input,
+.form-field textarea {
   width: 100%;
   min-height: 52px;
   padding: 0 15px;
@@ -1243,9 +1244,19 @@ p {
   transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
-.form-field input::placeholder { color: #747a85; }
+.form-field textarea {
+  min-height: 132px;
+  padding-block: 14px;
+  resize: vertical;
+  font: inherit;
+  line-height: 1.5;
+}
 
-.form-field input:focus {
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: #747a85; }
+
+.form-field input:focus,
+.form-field textarea:focus {
   border-color: rgba(239, 96, 59, 0.8);
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 0 4px rgba(217, 43, 82, 0.14);
@@ -1349,6 +1360,64 @@ p {
 }
 
 @keyframes registration-spin { to { transform: rotate(360deg); } }
+
+body.has-contact-modal { overflow: hidden; }
+
+.contact-modal[hidden] { display: none; }
+
+.contact-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.contact-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 11, 14, 0.76);
+  backdrop-filter: blur(8px);
+}
+
+.contact-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  background: var(--dark);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+}
+
+.contact-form { padding: 38px; }
+
+.contact-form .registration-form-head { padding-right: 42px; }
+
+.contact-close {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: #c9cdd3;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.contact-close:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
 
 .final-cta {
   padding-block: 110px;
@@ -1562,6 +1631,9 @@ footer {
   .faq-list summary { padding-right: 46px; font-size: 15px; }
   .access-panel { padding: 32px 22px; border-radius: 20px; }
   .registration-form { padding: 26px 20px; }
+  .contact-modal { padding: 10px; }
+  .contact-dialog { max-height: calc(100vh - 20px); }
+  .contact-form { padding: 30px 20px 24px; }
   .final-cta { padding-block: 78px; }
   .final-actions .button { width: 100%; }
   .final-inner h2 span { white-space: normal; }
