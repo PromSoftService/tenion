@@ -148,6 +148,7 @@ if (registrationForm instanceof HTMLFormElement) {
 
     submit.disabled = true;
     submit.classList.add("is-loading");
+    submit.setAttribute("aria-busy", "true");
     submit.firstChild.textContent = "Создаём доступ ";
     if (status instanceof HTMLElement) {
       status.textContent = "";
@@ -169,6 +170,12 @@ if (registrationForm instanceof HTMLFormElement) {
       registrationForm.querySelectorAll("input, button").forEach((element) => {
         element.disabled = true;
       });
+      submit.classList.remove("is-loading");
+      submit.classList.add("is-success");
+      submit.removeAttribute("aria-busy");
+      submit.firstChild.textContent = "Доступ создан ";
+      const submitIcon = submit.querySelector("span");
+      if (submitIcon instanceof HTMLElement) submitIcon.textContent = "✓";
       if (status instanceof HTMLElement) {
         status.textContent = result.message || "Доступ создан. Проверьте почту.";
         status.classList.add("is-success");
@@ -180,6 +187,7 @@ if (registrationForm instanceof HTMLFormElement) {
       }
       submit.disabled = false;
       submit.classList.remove("is-loading");
+      submit.removeAttribute("aria-busy");
       submit.firstChild.textContent = "Получить доступ ";
     }
   });
