@@ -29,6 +29,13 @@ The public endpoint checks the request origin, rejects oversized/invalid input,
 uses a honeypot and applies per-IP and per-email rate limits. Secrets are read
 only from the production environment and must never be committed.
 
+Store the Yandex Mail application password on the server without placing it in
+shell history or chat:
+
+```bash
+sudo python3 /srv/pss/apps/tenion/deploy/configure_smtp.py
+```
+
 Run the tests from the repository root:
 
 ```bash

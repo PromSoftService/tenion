@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import base64
+import binascii
 from dataclasses import dataclass
 import os
 from pathlib import Path
@@ -14,6 +16,17 @@ def _required(name: str) -> str:
     value = os.environ.get(name, "").strip()
     if not value:
         raise ConfigurationError(f"{name} is required")
+    return value
+
+
+def _smtp_password() -> str:
+    encoded = _required("TENION_SMTP_PASSWORD_B64")
+    try:
+        value = base64.b64decode(encoded, validate=True).decode("utf-8")
+    except (binascii.Error, UnicodeDecodeError) as error:
+        raise ConfigurationError("TENION_SMTP_PASSWORD_B64 is invalid") from error
+    if not value:
+        raise ConfigurationError("TENION_SMTP_PASSWORD_B64 is empty")
     return value
 
 
@@ -60,10 +73,9 @@ class Settings:
             smtp_port=smtp_port,
             smtp_security=smtp_security,
             smtp_username=_required("TENION_SMTP_USERNAME"),
-            smtp_password=_required("TENION_SMTP_PASSWORD"),
+            smtp_password=_smtp_password(),
             mail_from_address=_required("TENION_MAIL_FROM_ADDRESS"),
             mail_from_name=os.environ.get("TENION_MAIL_FROM_NAME", "MetaPlatform").strip() or "MetaPlatform",
             mail_reply_to=_required("TENION_MAIL_REPLY_TO"),
             ip_hash_secret=_required("TENION_IP_HASH_SECRET"),
         )
-
